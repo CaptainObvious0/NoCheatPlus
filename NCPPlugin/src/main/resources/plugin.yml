@@ -247,7 +247,7 @@ permissions:
                         description: Allow the player to bypass the GodMode check.
                     nocheatplus.checks.fight.noswing:
                         description: Allow the player to bypass the NoSwing check.
-                    nocheatplus.checks.fight.piatchpattern:
+                    nocheatplus.checks.fight.pitchpattern:
                         description: Allow the player to bypass the PitchPattern check.
                     nocheatplus.checks.fight.reach:
                         description: Allow the player to bypass the Reach check.
