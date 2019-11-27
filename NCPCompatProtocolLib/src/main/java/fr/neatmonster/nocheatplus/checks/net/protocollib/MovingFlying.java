@@ -272,11 +272,6 @@ public class MovingFlying extends BaseAdapter {
 
         // TODO: Counters for hasPos, hasLook, both, none.
 
-        if (event.getPacket().getBooleans().readSafely(1)) {
-            data.flyingMoves = 0;
-        } else {
-            ++data.flyingMoves;
-        }
         // Actual packet frequency check.
         // TODO: Consider using the NetStatic check.
         if (!cancel && !skipFlyingFrequency 
@@ -294,7 +289,6 @@ public class MovingFlying extends BaseAdapter {
         //        }
 
         // Process cancel and debug log.
-        data.lastFlyingTime = System.currentTimeMillis();
         if (cancel) {
             event.setCancelled(true);
         }

@@ -85,8 +85,9 @@ public class FrictionAxisVelocity {
             // (Altered entries should be kept, since they get used right away.)
         }
         // Decrease counts for queued.
-        for (AccountEntry aQueued : queued) {
-            aQueued.actCount--;
+        final Iterator<AccountEntry> it = queued.iterator();
+        while (it.hasNext()) {
+            it.next().actCount --;
         }
     }
 
