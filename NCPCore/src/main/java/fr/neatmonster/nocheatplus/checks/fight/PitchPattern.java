@@ -21,6 +21,8 @@ public class PitchPattern extends Check {
 	}
   //private final List<String> tags = new LinkedList<String>();
 	
+  // Check developed by islandscout  (https://github.com/HawkAnticheat/Hawk/blob/master/src/me/islandscout/hawk/check/movement/look/AimbotPrecision.java)
+	
   /*
   *	This check attempts to find the GCD of the players pitch movements.
   *	All mouse movements should be divisible by a constant defined by your
