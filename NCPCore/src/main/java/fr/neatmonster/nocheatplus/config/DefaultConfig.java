@@ -745,7 +745,7 @@ public class DefaultConfig extends ConfigFile {
         set(ConfPaths.STRINGS + ".passable", start + "tried to move into a block (bugged player of phase cheat)" + end, 1154);
         set(ConfPaths.STRINGS + ".pitchpattern", start + "has pitch rotation patterns that are often associated with cheats" + end, 1154);
         set(ConfPaths.STRINGS + ".relog", start + "tried to relog too fast" + end, 1154);
-        set(ConfPaths.STRINGS + ".scaffold", start + "tried to place a block in an unnatural way" + end, 1154);
+        set(ConfPaths.STRINGS + ".scaffold", start + "tried to place a block in an unnatural way (Tags: &6[tags]&7)" + end, 1154);
         set(ConfPaths.STRINGS + ".survivalfly", start + "tried to move unexpectedly" + end, 1154);
         set(ConfPaths.STRINGS + ".survivalflyhighvl", start + "tried to perform an illegal move (Subchecks: &6[tags]&7)" + end, 1154);
         set(ConfPaths.STRINGS + ".tellchatnormal", tell + "Too many messages, slow down...", 1154);
