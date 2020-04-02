@@ -57,10 +57,6 @@ public class NetConfig extends ACheckConfig {
     public final float attackFrequencyLimitSecondsEight;
     public final float attackFrequencyImprobableWeight;
     public final ActionList attackFrequencyActions;
-    
-    public final int fightSyncResetCount;
-    public final int fightSyncThreshold;
-    public final ActionList fightSyncActions;
 
     public final int flyingFrequencySeconds;
     public final double flyingFrequencyPPS;
@@ -95,10 +91,6 @@ public class NetConfig extends ACheckConfig {
         attackFrequencyLimitSecondsEight = config.getInt(ConfPaths.NET_ATTACKFREQUENCY_SECONDS_EIGHT);
         attackFrequencyImprobableWeight = (float) config.getDouble(ConfPaths.NET_ATTACKFREQUENCY_IMPROBABLE_WEIGHT);
         attackFrequencyActions = config.getOptimizedActionList(ConfPaths.NET_ATTACKFREQUENCY_ACTIONS, Permissions.NET_ATTACKFREQUENCY);
-        
-        fightSyncResetCount = config.getInt(ConfPaths.NET_FIGHTSYNC_RESETCOUNT);
-        fightSyncThreshold = config.getInt(ConfPaths.NET_FIGHTSYNC_THRESHOLD);
-        fightSyncActions = config.getOptimizedActionList(ConfPaths.NET_FIGHTSYNC_ACTIONS, Permissions.NET_ATTACKFREQUENCY);
 
         flyingFrequencySeconds = Math.max(1, globalConfig.getInt(ConfPaths.NET_FLYINGFREQUENCY_SECONDS));
         flyingFrequencyPPS = Math.max(1.0, globalConfig.getDouble(ConfPaths.NET_FLYINGFREQUENCY_PACKETSPERSECOND));

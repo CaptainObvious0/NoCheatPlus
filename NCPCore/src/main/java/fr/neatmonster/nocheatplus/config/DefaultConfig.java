@@ -346,11 +346,6 @@ public class DefaultConfig extends ConfigFile {
         set(ConfPaths.FIGHT_ANGLE_THRESHOLD_YAW, 60, 1154); 
         set(ConfPaths.FIGHT_ANGLE_THRESHOLD_SWITCH, 50, 1153);
         set(ConfPaths.FIGHT_ANGLE_ACTIONS, "cancel vl>100 log:angle:4:5:i cancel vl>500 log:angle:0:20:if cancel", 1154);
-        
-        set(ConfPaths.FIGHT_CLICKPATTERN_CHECK, false, 1154);
-        set(ConfPaths.FIGHT_CLICKPATTERN_RANGE, 15, 1154); // 8
-        set(ConfPaths.FIGHT_CLICKPATTERN_PENALTY, 150L, 1154);
-        set(ConfPaths.FIGHT_CLICKPATTERN_ACTIONS, "vl>2 cancel vl>6 log:clickpat:2:3:if cancel", 1154);
 
         set(ConfPaths.FIGHT_CRITICAL_CHECK, "default", 785);
         // Old value: 0.06251. NCP seems to be unable to catch packet-critical cheats with this value, although it has nearly no false positives.
@@ -616,13 +611,6 @@ public class DefaultConfig extends ConfigFile {
         set(ConfPaths.NET_ATTACKFREQUENCY_SECONDS_EIGHT, 95, 1154); //100
         set(ConfPaths.NET_ATTACKFREQUENCY_IMPROBABLE_WEIGHT, 3.0, 1154);
         set(ConfPaths.NET_ATTACKFREQUENCY_ACTIONS, "cancel vl>10 cancel log:attackfrequency:4:5:i vl>200 cancel log:attackfrequency:0:4:if cmdc:kickattackfrequency", 1154);
-
-        // FightSync
-        set(ConfPaths.NET_FIGHTSYNC_ACTIVE, false, 1154); 
-        set(ConfPaths.NET_FIGHTSYNC_THRESHOLD, 5, 1154);
-        set(ConfPaths.NET_FIGHTSYNC_RESETCOUNT, 20, 1154); //Old: 11
-        // Should be really difficult for legit players to reach 10.000VL, but fairly easily if you do go overboard with a killaura.
-        set(ConfPaths.NET_FIGHTSYNC_ACTIONS, "vl>10 log:fightsync:10:9:if vl>10000 cancel log:fightsync:2:10:if cmdc:kicksuspiciouscombat:0:10", 1154); 
         
         // FlyingFrequency
         set(ConfPaths.NET_FLYINGFREQUENCY_ACTIVE, "default", 785);
@@ -678,7 +666,6 @@ public class DefaultConfig extends ConfigFile {
         set(ConfPaths.STRINGS + ".captcha", "[player] failed captcha repeatedly" + end, 785);
         set(ConfPaths.STRINGS + ".chatfast", start + "acted like spamming (message deleted) (IP: &6[ip]&7)" + end, 1154);
         set(ConfPaths.STRINGS + ".chatnormal", start + "seems to be spamming the server chat" + end, 1154);
-        set(ConfPaths.STRINGS + ".clickpat", start + " seems to be clicking with patterns that are often associated with cheats" + end, 1154);
         set(ConfPaths.STRINGS + ".commands", start + "issued too many commands too quickly" + end, 785);
         set(ConfPaths.STRINGS + ".creativefly", start + "tried to move unexpectedly while in air (Tags: &6[tags]&7)" + end, 1154);
         set(ConfPaths.STRINGS + ".critical", start + "tried to perform an illegal critical hit (Tags: &6[tags]&7)" + end, 1154);
@@ -691,7 +678,6 @@ public class DefaultConfig extends ConfigFile {
         set(ConfPaths.STRINGS + ".fastplace", start + "tried to place blocks too quickly" + end, 1154);
         set(ConfPaths.STRINGS + ".fdirection", start + "tried to hit an entity outside their line of sight" + end, 1154);
         set(ConfPaths.STRINGS + ".fdirectionlowvl", start + "could be using an aimbot (hit not canceled)" + end, 1154);
-        set(ConfPaths.STRINGS + ".fightsync", start + "detected a discrepancy between the yaw and pitch data sent by the client and the actual data registered by the server" + end, 1154);
         set(ConfPaths.STRINGS + ".flyfile", start + "tried to perform an illegal move from ([locationfrom]) to ([locationto]) over a distance of ([distance]) blocks, subchecks triggered> ([tags])" + end, 1154);
         set(ConfPaths.STRINGS + ".flyingfrequency", start + "is manipulating packets sent to the server to gain an unfair advantage" + end, 1154);
         set(ConfPaths.STRINGS + ".freach", start + "tried to hit an entity from a suspicious distance" + end, 1154);

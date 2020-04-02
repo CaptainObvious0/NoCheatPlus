@@ -32,6 +32,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
 import fr.neatmonster.nocheatplus.NCPAPIProvider;
@@ -90,8 +91,6 @@ public class FightListener extends CheckListener implements JoinLeaveListener{
 
     /** The critical check. */
     private final Critical    critical    = addCheck(new Critical());
-    
-    private final ClickPattern clickpat    = addCheck(new ClickPattern());
 
     /** The direction check. */
     private final Direction   direction   = addCheck(new Direction());
@@ -104,8 +103,6 @@ public class FightListener extends CheckListener implements JoinLeaveListener{
 
     /** The no swing check. */
     private final NoSwing     noSwing     = addCheck(new NoSwing());
-    
-    private final FightSync    FightSync  = addCheck(new FightSync());
 
     /** The reach check. */
     private final Reach       reach       = addCheck(new Reach());
@@ -324,11 +321,6 @@ public class FightListener extends CheckListener implements JoinLeaveListener{
         if (pData.isCheckActive(CheckType.FIGHT_WRONGTURN, player) 
                 && wrongTurn.check(player, loc, data, cc)) {
             cancelled = true;
-        }
-        
-        // ClickPatern check
-        if (clickpat.check(player, data, pData, cc) && clickpat.isEnabled(player, pData)) {
-        	cancelled = true;
         }
 
         // Run through the main checks.
@@ -932,30 +924,7 @@ public class FightListener extends CheckListener implements JoinLeaveListener{
         final long penalty = pData.getGenericInstance(FightConfig.class).toolChangeAttackPenalty;
         if (penalty > 0 ) {
             pData.getGenericInstance(FightData.class).attackPenalty.applyPenalty(penalty);
-        }
-    }
-    
-    @EventHandler
-    public void entityDamage(EntityDamageByEntityEvent event) {
-    if (!(event.getDamager() instanceof Player)) return;
-    Player player = (Player) event.getDamager();
-		
-    final IPlayerData pData = DataManager.getPlayerData(player);
-    final NetData data = pData.getGenericInstance(NetData.class);
-    final NetConfig cc = pData.getGenericInstance(NetConfig.class);
-    if (!pData.isCheckActive(CheckType.NET_FIGHTSYNC, player)) return;
-    if (data.fightSyncCount >= cc.fightSyncResetCount) {
-        data.fightSyncCount = 0;
-        data.fightSyncReset = 0;
-        data.fightSyncVL *= 0.99D;
-    }
-    data.fightSyncReset += 1;
-    Location packet = data.lastHitLocation, eventLoc = player.getLocation();
-		
-    if (FightSync.check(player, pData, data, packet, eventLoc, cc)) {
-	event.setCancelled(true);
-    }
-		
+        }	
 		
 	}
 

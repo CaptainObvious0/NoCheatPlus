@@ -35,7 +35,6 @@ public class FightData extends ACheckData implements IDataOnRemoveSubCheckData, 
 
     // Violation levels.
     public double                  angleVL;
-    public double                  clickPatternVL;
     public double                  criticalVL;
     public double                  directionVL;
     public double                  fastHealVL;
@@ -97,6 +96,9 @@ public class FightData extends ACheckData implements IDataOnRemoveSubCheckData, 
     // Data of the no swing check.
     public boolean                 noSwingArmSwung = true; // TODO: First is free for now, 1.12.2, other?
     public boolean                 exemptArmSwing = true;
+    
+    public long                    lastMoveTime                  = 0;
+    public long                    lastUseTime                   = 0;
 
     // Data of the reach check.
     public double                  reachMod = 1.0;
@@ -140,8 +142,6 @@ public class FightData extends ACheckData implements IDataOnRemoveSubCheckData, 
                     angleVL = 0;
                     angleHits.clear();
                     break;
-                case FIGHT_CLICKPATTERN:
-                	clickPatternVL = 0;
                 case FIGHT_SPEED:
                     speedVL = 0;
                     speedBuckets.clear(System.currentTimeMillis());

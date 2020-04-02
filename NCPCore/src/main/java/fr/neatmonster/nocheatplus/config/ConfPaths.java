@@ -487,12 +487,6 @@ public abstract class ConfPaths {
     public static final String  FIGHT_ANGLE_THRESHOLD_SWITCH             = FIGHT_ANGLE_THRESHOLD + "average_switch";
     public static final String  FIGHT_ANGLE_ACTIONS                      = FIGHT_ANGLE + "actions";
     
-    private static final String FIGHT_CLICKPATTERN                       = FIGHT + "clickpattern.";
-    public static final String  FIGHT_CLICKPATTERN_CHECK                 = FIGHT_CLICKPATTERN + SUB_ACTIVE;
-    public static final String  FIGHT_CLICKPATTERN_RANGE                 = FIGHT_CLICKPATTERN + "range";
-    public static final String  FIGHT_CLICKPATTERN_PENALTY               = FIGHT_CLICKPATTERN + "penalty";
-    public static final String  FIGHT_CLICKPATTERN_ACTIONS               = FIGHT_CLICKPATTERN + "actions";
-    
     private static final String FIGHT_CRITICAL                           = FIGHT + "critical.";
     public static final String  FIGHT_CRITICAL_CHECK                     = FIGHT_CRITICAL + SUB_ACTIVE;
     // TODO: Deprecate or rename (->falldistancemin)?
@@ -780,12 +774,6 @@ public abstract class ConfPaths {
     private static final String NET_ATTACKFREQUENCY_IMPROBABLE              = NET_ATTACKFREQUENCY + "improbable.";
     public static final String  NET_ATTACKFREQUENCY_IMPROBABLE_WEIGHT       = NET_ATTACKFREQUENCY_IMPROBABLE + "weight";
     public static final String  NET_ATTACKFREQUENCY_ACTIONS                 = NET_ATTACKFREQUENCY + "actions";
-    
-    private static final String NET_FIGHTSYNC                               = NET + "fightsync.";
-    public static final String  NET_FIGHTSYNC_ACTIVE                        = NET_FIGHTSYNC + SUB_ACTIVE;
-    public static final String  NET_FIGHTSYNC_THRESHOLD                     = NET_FIGHTSYNC + "threshold";
-    public static final String  NET_FIGHTSYNC_RESETCOUNT                    = NET_FIGHTSYNC + "reset_count";
-    public static final String  NET_FIGHTSYNC_ACTIONS                       = NET_FIGHTSYNC + "actions";
 
     private static final String NET_FLYINGFREQUENCY                         = NET + "flyingfrequency.";
     public static final String  NET_FLYINGFREQUENCY_ACTIVE                  = NET_FLYINGFREQUENCY + SUB_ACTIVE;
@@ -958,6 +946,10 @@ public abstract class ConfPaths {
     public static final String  FIGHT_CRITICAL_CANCEL_CANCEL             = "checks.fight.critical.cancel.cancel";
     @Deprecated
     public static final String  FIGHT_CRITICAL_CANCEL_DIVIDEDAMAGE       = "checks.fight.critical.cancel.dividedamage";
+    @Deprecated // Does this need to be done? 
+    private static final String FIGHT_CLICKPATTERN                       = "checks.fight.clickpattern";
+    @Deprecated
+    private static final String NET_FIGHTSYNC                            = "checks.net.fightsync";
 
     /**
      * Get moved paths for which an annotation doesn't work.

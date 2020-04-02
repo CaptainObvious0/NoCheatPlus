@@ -37,10 +37,6 @@ public class FightConfig extends ACheckConfig {
     public final double     angleSwitch;
     public final double     angleTime;
     public final ActionList angleActions;
-    
-    public final int        clickRange;
-    public long             clickPen;
-    public final ActionList clickActions;
 
     public final long		toolChangeAttackPenalty;
 
@@ -108,10 +104,6 @@ public class FightConfig extends ACheckConfig {
         angleYaw = config.getDouble(ConfPaths.FIGHT_ANGLE_THRESHOLD_YAW);
         angleTime = config.getDouble(ConfPaths.FIGHT_ANGLE_THRESHOLD_TIME);
         angleActions = config.getOptimizedActionList(ConfPaths.FIGHT_ANGLE_ACTIONS, Permissions.FIGHT_ANGLE);
-        
-        clickRange = config.getInt(ConfPaths.FIGHT_CLICKPATTERN_RANGE);
-        clickPen = config.getLong(ConfPaths.FIGHT_CLICKPATTERN_PENALTY);
-        clickActions = config.getOptimizedActionList(ConfPaths.FIGHT_CLICKPATTERN_ACTIONS, Permissions.FIGHT_SPEED);
 
         toolChangeAttackPenalty = config.getLong(ConfPaths.FIGHT_TOOLCHANGEPENALTY);
 

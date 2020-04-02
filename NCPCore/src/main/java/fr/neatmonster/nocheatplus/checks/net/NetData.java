@@ -43,10 +43,6 @@ public class NetData extends ACheckData {
 
     // AttackFrequency
     public ActionFrequency attackFrequencySeconds = new ActionFrequency(16, 500);
-    
-    public Location lastHitLocation;
-    public int      fightSyncReset;
-    public int      fightSyncCount;
 
     // FlyingFrequency
     /** All flying packets, use System.currentTimeMillis() for time. */
