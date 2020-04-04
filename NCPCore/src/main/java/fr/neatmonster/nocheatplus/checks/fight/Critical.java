@@ -28,7 +28,7 @@ import fr.neatmonster.nocheatplus.checks.CheckType;
 import fr.neatmonster.nocheatplus.checks.ViolationData;
 import fr.neatmonster.nocheatplus.checks.moving.MovingConfig;
 import fr.neatmonster.nocheatplus.checks.moving.MovingData;
-import fr.neatmonster.nocheatplus.checks.moving.model.LiftOffEnvelope;
+import fr.neatmonster.nocheatplus.checks.moving.model.PlayerMoveData;
 import fr.neatmonster.nocheatplus.checks.moving.model.PlayerMoveInfo;
 import fr.neatmonster.nocheatplus.checks.moving.util.AuxMoving;
 import fr.neatmonster.nocheatplus.checks.moving.util.MovingUtil;
@@ -64,48 +64,101 @@ public class Critical extends Check {
         boolean cancel = false;
 
         final double mcFallDistance = (double) player.getFallDistance();
+        final MovingData mData = pData.getGenericInstance(MovingData.class);
 
         // Check if the hit was a critical hit (very small fall-distance, not on ladder, 
         //  not in liquid, not in vehicle, and without blindness effect).
-        if (mcFallDistance > 0.0 && !player.isInsideVehicle() 
-                && !player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
-
-            if (pData.isDebugActive(type)) {
-                debug(player, "y=" + loc.getY() + " mcfalldist=" + mcFallDistance);
-            }
-
-            // Might be a violation.
+        if (mcFallDistance > 0.0 && !player.isInsideVehicle() && !player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
+        	
+        	// Might be a violation.
             final MovingConfig mcc = pData.getGenericInstance(MovingConfig.class);
             final MovingData dataM = pData.getGenericInstance(MovingData.class);
+            final PlayerMoveData thisMove = dataM.playerMoves.getCurrentMove();
+
+            if (pData.isDebugActive(type)) {
+                debug(player, "y=" + loc.getY() + " mcfalldist=" + mcFallDistance + " jumpphase: " + mData.sfJumpPhase + " noFallDist: " + mData.noFallFallDistance + " lowjump: " + mData.sfLowJump + " toGround: " + thisMove.to.onGround + " fromGround: " + thisMove.from.onGround);
+            }
+
             /*
              * TODO: NoFall data max y. (past moves too perhaps - low jump,
              * number split moves without reason)
              */
-
-            // TODO: Skip near the highest jump height (needs check if head collided with something solid, which also detects low jump).
-            if (!dataM.isVelocityJumpPhase() && 
-                    (dataM.sfLowJump && !dataM.sfNoLowJump && dataM.liftOffEnvelope == LiftOffEnvelope.NORMAL
-                    || mcFallDistance < cc.criticalFallDistance && !BlockProperties.isResetCond(player, loc, mcc.yOnGround))) {
-                // TODO: Use past move tracking to check for SurvivalFly and the like?
+            
+            /*
+             * Attempt to look for silent jumps by comparing the players fallDistance and the fallDistance calculated by NoFall.
+             * Only check if that fall distance is below/equal to the fall disatnce set in the config.
+             * Use the jumpPhase to help determine if it was a silent jump as well
+             * 
+             * This method should reduce the false positives from the old check, by now focusing on silent jumps rather than just crit hits within a fall distance.
+             * 
+             */
+            // 0.0009 is just a random number for leniency that works fine, maybe add a config option?
+            if (Math.abs(mData.noFallFallDistance - mcFallDistance) > 0.0009 && mcFallDistance <= cc.criticalFallDistance && mData.sfJumpPhase <= 1 && !BlockProperties.isResetCond(player, loc, mcc.yOnGround) || mData.sfLowJump) {
+            	
+            	// TODO: Use past move tracking to check for SurvivalFly and the like?
                 final PlayerMoveInfo moveInfo = auxMoving.usePlayerMoveInfo();
                 moveInfo.set(player, loc, null, mcc.yOnGround);
+                
                 if (MovingUtil.shouldCheckSurvivalFly(player, moveInfo.from, dataM, mcc, pData)) {
-                    data.criticalVL += 1.0;
-                    // Execute whatever actions are associated with this check and 
-                    //  the violation level and find out if we should cancel the event.
-                    final ViolationData vd = new ViolationData(this, player, data.criticalVL, 1.0, cc.criticalActions);
-                    if (vd.needsParameters()) {
-                        final List<String> tags = new ArrayList<String>();
-                        if (dataM.sfLowJump) {
-                            tags.add("lowjump");
+                	
+                	// TODO: maybe these require a fix/modification with NoFall? For now, exempt the player.
+                	// Don't think its possible to fake a crit in these situations either (except for being onGround in a web/water, which is checked for before being exempt) ... or at least from my testing?
+                	if (thisMove.from.onClimbable || thisMove.to.onClimbable) {
+                		
+                	} else if ((thisMove.from.inLiquid | thisMove.to.inLiquid) && thisMove.from.onGround && thisMove.to.onGround) {
+                		
+                	} else if ((thisMove.from.inWeb | thisMove.to.inWeb) & !thisMove.to.onGround) {
+                		
+                	} else {
+                		
+                		// False positives with lowJump when the player jumps on/off a block while attacking an entity
+                		if (dataM.sfLowJump) {
+							
+							if (Math.abs(mData.noFallFallDistance - mcFallDistance) < 0.0009) {
+								
+								if (mcFallDistance > cc.criticalFallDistance) {
+									
+									if (!thisMove.to.onGround || !thisMove.from.onGround) {
+										return false;
+									}
+									
+								}
+								
+								
+							} else if (!thisMove.to.onGround || !thisMove.from.onGround) {
+								
+								if (Math.abs(mData.noFallFallDistance - mcFallDistance) > 0.0009) {
+									return false;
+								}
+								
+							}
+							
+						}
+                		
+                		// Prevents false positives on things like slime blocks
+                		if (!thisMove.to.onGround && !thisMove.from.onGround) {
+                			return false;
+                		}
+                			
+                		data.criticalVL += 1.0;
+                        // Execute whatever actions are associated with this check and 
+                        //  the violation level and find out if we should cancel the event.
+                        final ViolationData vd = new ViolationData(this, player, data.criticalVL, 1.0, cc.criticalActions);
+                        if (vd.needsParameters()) {
+                            final List<String> tags = new ArrayList<String>();
+                            if (dataM.sfLowJump) {
+                            	//if (dataM.sfJumpPhase >= 4 && !)
+                                tags.add("lowjump");
+                            }
+                            vd.setParameter(ParameterName.TAGS, StringUtil.join(tags, "+"));
                         }
-                        vd.setParameter(ParameterName.TAGS, StringUtil.join(tags, "+"));
+                        cancel = executeActions(vd).willCancel();
+                        // TODO: Introduce penalty instead of cancel.
+                        
                     }
-                    cancel = executeActions(vd).willCancel();
-                    // TODO: Introduce penalty instead of cancel.
-                    
-                }
-                auxMoving.returnPlayerMoveInfo(moveInfo);
+                    auxMoving.returnPlayerMoveInfo(moveInfo);
+                		
+                	}
             }
         }
 
