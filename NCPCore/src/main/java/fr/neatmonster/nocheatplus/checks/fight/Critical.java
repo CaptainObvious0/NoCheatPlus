@@ -72,8 +72,7 @@ public class Critical extends Check {
         	
         	// Might be a violation.
             final MovingConfig mcc = pData.getGenericInstance(MovingConfig.class);
-            final MovingData dataM = pData.getGenericInstance(MovingData.class);
-            final PlayerMoveData thisMove = dataM.playerMoves.getCurrentMove();
+            final PlayerMoveData thisMove = mData.playerMoves.getCurrentMove();
 
             if (pData.isDebugActive(type)) {
                 debug(player, "y=" + loc.getY() + " mcfalldist=" + mcFallDistance + " jumpphase: " + mData.sfJumpPhase + " noFallDist: " + mData.noFallFallDistance + " lowjump: " + mData.sfLowJump + " toGround: " + thisMove.to.onGround + " fromGround: " + thisMove.from.onGround);
@@ -99,7 +98,7 @@ public class Critical extends Check {
                 final PlayerMoveInfo moveInfo = auxMoving.usePlayerMoveInfo();
                 moveInfo.set(player, loc, null, mcc.yOnGround);
                 
-                if (MovingUtil.shouldCheckSurvivalFly(player, moveInfo.from, dataM, mcc, pData)) {
+                if (MovingUtil.shouldCheckSurvivalFly(player, moveInfo.from, mData, mcc, pData)) {
                 	
                 	// TODO: maybe these require a fix/modification with NoFall? For now, exempt the player.
                 	// Don't think its possible to fake a crit in these situations either (except for being onGround in a web/water, which is checked for before being exempt) ... or at least from my testing?
@@ -112,7 +111,7 @@ public class Critical extends Check {
                 	} else {
                 		
                 		// False positives with lowJump when the player jumps on/off a block while attacking an entity
-                		if (dataM.sfLowJump) {
+                		if (mData.sfLowJump) {
 							
 							if (Math.abs(mData.noFallFallDistance - mcFallDistance) < 0.0009) {
 								
@@ -146,8 +145,7 @@ public class Critical extends Check {
                         final ViolationData vd = new ViolationData(this, player, data.criticalVL, 1.0, cc.criticalActions);
                         if (vd.needsParameters()) {
                             final List<String> tags = new ArrayList<String>();
-                            if (dataM.sfLowJump) {
-                            	//if (dataM.sfJumpPhase >= 4 && !)
+                            if (mData.sfLowJump) {
                                 tags.add("lowjump");
                             }
                             vd.setParameter(ParameterName.TAGS, StringUtil.join(tags, "+"));
