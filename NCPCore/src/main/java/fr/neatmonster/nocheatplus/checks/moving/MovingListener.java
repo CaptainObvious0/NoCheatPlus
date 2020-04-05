@@ -848,7 +848,8 @@ public class MovingListener extends CheckListener implements TickListener, IRemo
                             && checkBounceEnvelope(player, pFrom, pTo, data, cc, pData)) {
                         // TODO: Check other side conditions (fluids, web, max. distance to the block top (!))
                         // Classic static bounce.
-                        if ((BlockProperties.getBlockFlags(pTo.getTypeIdBelow()) 
+                    	pTo.collectBlockFlags();
+                        if ((pTo.getBlockFlags()
                                 & BlockProperties.F_BOUNCE25) != 0L) {
                             /*
                              * TODO: May need to adapt within this method, if
@@ -1270,17 +1271,24 @@ public class MovingListener extends CheckListener implements TickListener, IRemo
      */
     private boolean checkBounceEnvelope(final Player player, final PlayerLocation from, final PlayerLocation to, 
             final MovingData data, final MovingConfig cc, final IPlayerData pData) {
+    	
+		// Workaround/fix for bed bouncing. getBlockY() would return an int, while a bed's maxY is 0.5625, causing this method to always return false.
+		// A better way to do this would to get the maxY through another method, just can't seem to find it :/
+		// Collect block flags at the current location as they may not already be there, and cause NullPointer errors.
+    	to.collectBlockFlags();
+        double blockY = ((to.getBlockFlags() & BlockProperties.F_BOUNCE25) != 0) && ((to.getY() + 0.4375) % 1 == 0) ? to.getY() : to.getBlockY();
+    	
         return 
                 // 0: Normal envelope (forestall NoFall).
                 (
                         // 1: Ordinary.
-                        to.getY() - to.getBlockY() <= Math.max(cc.yOnGround, cc.noFallyOnGround) 
+                        to.getY() - blockY <= Math.max(cc.yOnGround, cc.noFallyOnGround) 
                         // 1: With carpet.
                         || BlockProperties.isCarpet(to.getTypeId()) && to.getY() - to.getBlockY() <= 0.9
                         )
                 && MovingUtil.getRealisticFallDistance(player, from.getY(), to.getY(), data, pData) > 1.0
                 // 0: Within wobble-distance.
-                || to.getY() - to.getBlockY() < 0.286 && to.getY() - from.getY() > -0.5
+                || to.getY() - blockY < 0.286 && to.getY() - from.getY() > -0.5
                 && to.getY() - from.getY() < -Magic.GRAVITY_MIN
                 && !to.isOnGround()
                 ;
