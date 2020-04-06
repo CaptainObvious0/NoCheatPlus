@@ -121,7 +121,11 @@ public class RichBoundsLocation implements IGetBukkitLocation, IGetBlockPosition
     /** Is the player on the ground?. */
     Boolean onGround = null;
     
+    /** Is the player on soul sand? */
     Boolean onSoulSand = null;
+    
+    /** Is the player standing on stairs? */
+    Boolean onStairs = null;
 
 
     // "Heavy" object members that need to be set to null on cleanup. //
@@ -793,12 +797,18 @@ public class RichBoundsLocation implements IGetBukkitLocation, IGetBlockPosition
                 onIce = false;
             } else {
                 // TODO: Might skip the isOnGround part, e.g. if boats sink in slightly. Needs testing.
-                onIce = isOnGround() && BlockProperties.collides(blockCache, minX, minY - yOnGround, minZ, maxX, minY, maxZ, BlockProperties.F_ICE);
+                onIce = isOnGround() && BlockProperties.collides(blockCache, minX, minY - yOnGround, minZ, maxX, minY, maxZ, BlockProperties.F_ICE) | BlockProperties.collides(blockCache, minX, minY - (yOnGround - 1), minZ, maxX, minY - 1, maxZ, BlockProperties.F_ICE);
             }
         }
         return onIce;
     }
     
+    /**
+     * 
+     * Check the location is on soul sand.
+     * 
+     * @return true, if is on soul sand
+     */
     public boolean isOnSoulSand() {
         if (onSoulSand == null) {
             // TODO: Use a box here too ?
@@ -824,6 +834,24 @@ public class RichBoundsLocation implements IGetBukkitLocation, IGetBlockPosition
         return BlockProperties.isRails(getTypeId())
                 // TODO: Checking the block below might be over-doing it.
                 || y - blockY < 0.3625 && BlockProperties.isAscendingRails(getTypeIdBelow(), getData(blockX, blockY - 1, blockZ));
+    }
+    
+    /**
+     * Test if the player is on stairs. 
+     * 
+     * @return true, if is on stairs
+     */
+    public boolean isOnStairs() {
+            // TODO: Use a box here too ?
+            // TODO: check if player is really sneaking (refactor from survivalfly to static access in Combined ?)!
+            if (onStairs != null && (blockFlags.longValue() & BlockProperties.F_STAIRS) == 0) {
+                // TODO: check onGroundMinY !?
+                onStairs = false;
+            } else {
+                // TODO: Might skip the isOnGround part, e.g. if boats sink in slightly. Needs testing.
+                onStairs = isOnGround() && BlockProperties.collides(blockCache, minX, minY - yOnGround, minZ, maxX, minY, maxZ, BlockProperties.F_STAIRS);
+            }
+        return onStairs;
     }
 
     /**
