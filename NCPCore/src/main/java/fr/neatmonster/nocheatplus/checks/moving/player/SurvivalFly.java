@@ -1250,12 +1250,6 @@ public class SurvivalFly extends Check {
         boolean reset = false;
         final double past = data.yDis;
         
-        Material margin1 = null;
-        Material margin2 = null;
-        Material margin3 = null;
-        Material margin4 = null;
-        final Location loc = from.getLocation();
-        
         if (fromOnGround || from.isInLiquid() || from.isInWeb() || from.isOnClimbable() || (thisMove.touchedGround && resetTo)) reset = true;
         if (yDistance != 0.0 && !isWaterlogged(from)) {
             data.yDis += yDistance;
@@ -1271,6 +1265,7 @@ public class SurvivalFly extends Check {
 
         if (data.yDis > 1.4995) {
             final double margin = 0.20;
+            final Location loc = from.getLocation();
             
             if (data.yDis == 1.5 && ((to.getBlockFlags() & BlockProperties.F_SLAB) != 0) && thisMove.touchedGround) {
             	data.yDis = 0.0;

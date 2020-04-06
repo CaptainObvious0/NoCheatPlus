@@ -2735,16 +2735,6 @@ public class BlockProperties {
     public static final boolean isCarpet(final Material id) {
         return (getBlockFlags(id) & F_CARPET) != 0;
     }
-    
-    /**
-     * Checks if is slab.
-     * 
-     * @param id material id
-     * @return true, if it is a slab
-     */
-    public static final boolean isSlab(final Material id) {
-    	return (getBlockFlags(id) & F_SLAB) != 0;
-    }
 
     /**
      * Might hold true for liquids too.
