@@ -19,12 +19,10 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
@@ -435,7 +433,7 @@ public class SurvivalFly extends Check {
             }
             
             // Debug purposes only
-            if (hDistanceAboveLimit >= 0D && thisMove.from.onStairs && thisMove.to.onStairs) {
+            if (hDistanceAboveLimit >= 0D && from.isAboveStairs()) {
             	tags.add("stairs");
             }
             
@@ -1094,7 +1092,7 @@ public class SurvivalFly extends Check {
             friction = 0.0; // Ensure friction can't be used to speed.
             useBaseModifiers = true;
             useBaseModifiersSprint = false;
-        } else if (thisMove.to.onStairs && thisMove.from.onStairs) {
+        } else if (from.isAboveStairs() || (from.getBlockFlags() & BlockProperties.F_SLAB) != 0 && thisMove.from.onGround) {
         	hAllowedDistance = Magic.modStairs * thisMove.walkSpeed;
         	useBaseModifiers = true;
         }
@@ -1251,6 +1249,13 @@ public class SurvivalFly extends Check {
         final PlayerMoveData thisMove = data.playerMoves.getCurrentMove();
         boolean reset = false;
         final double past = data.yDis;
+        
+        Material margin1 = null;
+        Material margin2 = null;
+        Material margin3 = null;
+        Material margin4 = null;
+        final Location loc = from.getLocation();
+        
         if (fromOnGround || from.isInLiquid() || from.isInWeb() || from.isOnClimbable() || (thisMove.touchedGround && resetTo)) reset = true;
         if (yDistance != 0.0 && !isWaterlogged(from)) {
             data.yDis += yDistance;
@@ -1258,14 +1263,19 @@ public class SurvivalFly extends Check {
                 data.yDis = 0.0;
             }
         }
+        
         // "Noob" tower, bunny slope, velocity, recently left water 
         if (tags.contains("lostground_nbtwr") || data.isVelocityJumpPhase() || tags.contains("bunnyslope") || data.liqtick != 0) {
             data.yDis = 0.0;
         }
 
         if (data.yDis > 1.4995) {
-            final double margin = 0.2;
-            final Location loc = from.getLocation();
+            final double margin = 0.20;
+            
+            if (data.yDis == 1.5 && ((to.getBlockFlags() & BlockProperties.F_SLAB) != 0) && thisMove.touchedGround) {
+            	data.yDis = 0.0;
+            	return false;
+            } else
             if (BlockProperties.isCarpet(loc.clone().add(margin, 0.0, 0.0).getBlock().getType())) {
                 final long flag = BlockProperties.getBlockFlags(loc.clone().add(margin, -1.0, 0.0).getBlock().getType());
                 if ((flag & BlockProperties.F_THICK_FENCE) != 0 || (flag & BlockProperties.F_THICK_FENCE2) != 0) {

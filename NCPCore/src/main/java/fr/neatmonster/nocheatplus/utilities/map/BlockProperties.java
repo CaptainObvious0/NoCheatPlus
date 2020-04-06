@@ -861,6 +861,9 @@ public class BlockProperties {
 
     /** Height 15/16 (0.9375 = 1 - 0.0625). */
     public static final long F_HEIGHT16_15                  = f_flag();
+    
+    /** Flag for all slabs to fix issue when jumping on "stairs" of slabs, flagging for hackStep. */
+    public static final long F_SLAB                         = f_flag();
 
     // TODO: Convenience constants combining all height / minheight flags.
 
@@ -1063,7 +1066,7 @@ public class BlockProperties {
         }
 
         // Step (ground + full width).
-        final long stepFlags = F_GROUND | F_XZ100;
+        final long stepFlags = F_GROUND | F_XZ100 | F_SLAB;
         for (final Material mat : new Material[]{
                 BridgeMaterial.STONE_SLAB,
         }) {
@@ -1145,12 +1148,8 @@ public class BlockProperties {
         setFlag(Material.ICE, F_ICE);
 
         // Not ground (!).
-        for (final Material mat : new Material[]{
-                BridgeMaterial.SIGN,
-        }) {
-            // TODO: Might keep solid since it is meant to be related to block shapes rather ("original mc value").
-            maskFlag(mat, ~(F_GROUND | F_SOLID));
-        }
+        // TODO: Might keep solid since it is meant to be related to block shapes rather ("original mc value").
+        maskFlag(BridgeMaterial.SIGN, ~(F_GROUND | F_SOLID));
 
         // Ignore for passable.
         for (final Material mat : new Material[]{
@@ -2735,6 +2734,16 @@ public class BlockProperties {
      */
     public static final boolean isCarpet(final Material id) {
         return (getBlockFlags(id) & F_CARPET) != 0;
+    }
+    
+    /**
+     * Checks if is slab.
+     * 
+     * @param id material id
+     * @return true, if it is a slab
+     */
+    public static final boolean isSlab(final Material id) {
+    	return (getBlockFlags(id) & F_SLAB) != 0;
     }
 
     /**

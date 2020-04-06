@@ -1271,6 +1271,9 @@ public class MovingListener extends CheckListener implements TickListener, IRemo
     private boolean checkBounceEnvelope(final Player player, final PlayerLocation from, final PlayerLocation to, 
             final MovingData data, final MovingConfig cc, final IPlayerData pData) {
     	
+		// Workaround/fix for bed bouncing. getBlockY() would return an int, while a bed's maxY is 0.5625, causing this method to always return false.
+		// A better way to do this would to get the maxY through another method, just can't seem to find it :/
+		// Collect block flags at the current location as they may not already be there, and cause NullPointer errors.
     	to.collectBlockFlags();
         double blockY = ((to.getBlockFlags() & BlockProperties.F_BOUNCE25) != 0) && ((to.getY() + 0.4375) % 1 == 0) ? to.getY() : to.getBlockY();
     	
