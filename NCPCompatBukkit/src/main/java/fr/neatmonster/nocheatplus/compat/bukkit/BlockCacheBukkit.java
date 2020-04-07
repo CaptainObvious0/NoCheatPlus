@@ -70,7 +70,7 @@ public class BlockCacheBukkit extends BlockCache {
             // TODO: Probably check other ids too before doing this ?
             for (final Entity other : entity.getNearbyEntities(2.0, 2.0, 2.0)){
                 final EntityType type = other.getType();
-                if (type != EntityType.BOAT){ //  && !(other instanceof Minecart)) 
+                if (type != EntityType.BOAT && type != EntityType.SHULKER){ //  && !(other instanceof Minecart)) 
                     continue; 
                 }
                 final double locY = entity.getLocation(useLoc).getY();
