@@ -399,9 +399,6 @@ public class DefaultConfig extends ConfigFile {
         set(ConfPaths.FIGHT_SPEED_IMPROBABLE_FEEDONLY, false, 1154);
         set(ConfPaths.FIGHT_SPEED_IMPROBABLE_WEIGHT, 2.0, 1154);
 
-        set(ConfPaths.FIGHT_WRONGTURN_CHECK, "default", 1143);
-        set(ConfPaths.FIGHT_WRONGTURN_ACTIONS, "cancel cmdc:kickillegalrotations:0:15 log:wrongturn:0:15:fi", 1154);
-
 
         set(ConfPaths.INVENTORY_ACTIVE, "default", 1144);
 
@@ -741,7 +738,7 @@ public class DefaultConfig extends ConfigFile {
         set(ConfPaths.STRINGS + ".tempkick1", "ncp tempkick [player] 1  &c&l(!)&7 You have to wait 1 minute before joining this server again.", 1154);
         set(ConfPaths.STRINGS + ".tempkick5", "ncp tempkick [player] 5  &c&l(!)&7 You have to wait 5 minutes before joining this server again.", 1154);
         set(ConfPaths.STRINGS + ".vehicleenvelope", start + "tried to move a vehicle unexpectedly (Tags/Vehicle: &6[tags]&7)" + end, 1154);
-        set(ConfPaths.STRINGS + ".wrongturn", start + "sent an impossible pitch rotation (&6>90Â° &7or&6 <-90Â°&7)" + end, 1154);
+        set(ConfPaths.STRINGS + ".wrongturn", start + "sent an impossible pitch rotation (&6>90 &7or&6 <-90&7)" + end, 1154);
         // Clear a check data  
         set(ConfPaths.STRINGS + ".clearimprobable", clear + "COMBINED_IMPROBABLE", 1154);
         set(ConfPaths.STRINGS + ".clearsf", clear + "MOVING_SURVIVALFLY", 1154);
