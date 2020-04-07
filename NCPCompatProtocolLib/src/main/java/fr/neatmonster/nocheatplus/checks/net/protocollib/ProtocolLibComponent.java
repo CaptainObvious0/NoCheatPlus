@@ -127,6 +127,9 @@ public class ProtocolLibComponent implements IDisableListener, INotifyReload, Jo
         if (worldMan.isActiveAnywhere(CheckType.NET_SOUNDDISTANCE)) {
             register("fr.neatmonster.nocheatplus.checks.net.protocollib.SoundDistance", plugin);
         }
+        if (worldMan.isActiveAnywhere(CheckType.NET_WRONGTURN)) {
+        	register("fr.neatmonster.nocheatplus.checks.net.protocollib.WrongTurnAdapter", plugin);
+        }
         if (ServerVersion.compareMinecraftVersion("1.9") < 0) {
             if (worldMan.isActiveAnywhere(CheckType.NET_PACKETFREQUENCY)) {
                 register("fr.neatmonster.nocheatplus.checks.net.protocollib.CatchAllAdapter", plugin);

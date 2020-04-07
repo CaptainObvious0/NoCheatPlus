@@ -81,8 +81,6 @@ public class FightConfig extends ACheckConfig {
     public final float      speedImprobableWeight;
     public final ActionList speedActions;
 
-    public final ActionList wrongTurnActions;
-
     // Special flags:
     public final boolean    cancelDead;
     public final boolean    knockBackVelocityPvP;
@@ -150,10 +148,6 @@ public class FightConfig extends ACheckConfig {
         speedImprobableFeedOnly = config.getBoolean(ConfPaths.FIGHT_SPEED_IMPROBABLE_FEEDONLY);
         speedImprobableWeight = (float) config.getDouble(ConfPaths.FIGHT_SPEED_IMPROBABLE_WEIGHT);
         speedActions = config.getOptimizedActionList(ConfPaths.FIGHT_SPEED_ACTIONS, Permissions.FIGHT_SPEED);
-
-        wrongTurnActions = config.getOptimizedActionList(ConfPaths.FIGHT_WRONGTURN_ACTIONS, 
-                CheckType.FIGHT_WRONGTURN.getPermission());
-
 
         cancelDead = config.getBoolean(ConfPaths.FIGHT_CANCELDEAD);
         AlmostBoolean ref = config.getAlmostBoolean(ConfPaths.FIGHT_PVP_KNOCKBACKVELOCITY, AlmostBoolean.MAYBE);

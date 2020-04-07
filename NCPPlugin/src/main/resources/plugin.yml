@@ -251,8 +251,6 @@ permissions:
                         description: Allow the player to bypass the SelfHit check.
                     nocheatplus.checks.fight.speed:
                         description: Allow the player to bypass the Speed check.
-                    nocheatplus.checks.fight.wrongturn:
-                        description: Allow the player to bypass the WrongTurn check.
             nocheatplus.checks.inventory:
                 description: Allow the player to bypass all Inventory checks.
                 children:
@@ -320,6 +318,8 @@ permissions:
                   description: Bypass the KeepAliveFrequency check (keep alive packet spam).
                 nocheatplus.checks.net.packetfrequency:
                   description: Bypass the PacketFrequency check (overall packet spam).
+                nocheatplus.checks.net.wrongturn:
+                  description: Allow the player to bypass the WrongTurn check.
     
     nocheatplus.mods:
         description: Allow the player to use all the client mods.

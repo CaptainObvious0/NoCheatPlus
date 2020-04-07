@@ -99,6 +99,7 @@ public class Critical extends Check {
                 moveInfo.set(player, loc, null, mcc.yOnGround);
                 
                 if (MovingUtil.shouldCheckSurvivalFly(player, moveInfo.from, mData, mcc, pData)) {
+                	moveInfo.from.collectBlockFlags(0.4);
                 	
                 	// TODO: maybe these require a fix/modification with NoFall? For now, exempt the player.
                 	// Don't think its possible to fake a crit in these situations either (except for being onGround in a web/water, which is checked for before being exempt) ... or at least from my testing?
@@ -108,7 +109,11 @@ public class Critical extends Check {
                 		
                 	} else if ((thisMove.from.inWeb | thisMove.to.inWeb) & !thisMove.to.onGround) {
                 		
-                	} else {
+                	} else if ((moveInfo.from.getBlockFlags() & BlockProperties.F_BOUNCE25) != 0 && !thisMove.from.onGround && !thisMove.to.onGround) {
+                		
+                	}
+                	
+                	else {
                 		
                 		// False positives with lowJump when the player jumps on/off a block while attacking an entity
                 		if (mData.sfLowJump) {
@@ -122,8 +127,7 @@ public class Critical extends Check {
 									}
 									
 								}
-								
-								
+
 							} else if (!thisMove.to.onGround || !thisMove.from.onGround) {
 								
 								if (Math.abs(mData.noFallFallDistance - mcFallDistance) > 0.0009) {
@@ -133,11 +137,6 @@ public class Critical extends Check {
 							}
 							
 						}
-                		
-                		// Prevents false positives on things like slime blocks
-                		if (!thisMove.to.onGround && !thisMove.from.onGround) {
-                			return false;
-                		}
                 			
                 		data.criticalVL += 1.0;
                         // Execute whatever actions are associated with this check and 

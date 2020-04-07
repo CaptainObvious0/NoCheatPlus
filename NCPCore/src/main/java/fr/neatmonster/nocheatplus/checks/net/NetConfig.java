@@ -39,6 +39,7 @@ public class NetConfig extends ACheckConfig {
             Permissions.NET_FLYINGFREQUENCY, 
             Permissions.NET_KEEPALIVEFREQUENCY,
             Permissions.NET_PACKETFREQUENCY,
+            Permissions.NET_WRONGTURN,
     };
 
     public static RegisteredPermission[] getPreferKeepUpdatedPermissions() {
@@ -71,6 +72,8 @@ public class NetConfig extends ACheckConfig {
     public final float packetFrequencyPacketsPerSecond;
     public final int packetFrequencySeconds;
     public final ActionList packetFrequencyActions;
+    
+    public final ActionList wrongTurnActions;
 
     /** Maximum distance for lightning effects (squared). */
     public final double soundDistanceSq;
@@ -116,6 +119,8 @@ public class NetConfig extends ACheckConfig {
         soundDistanceSq = dist * dist;
 
         supersededFlyingCancelWaiting = config.getBoolean(ConfPaths.NET_SUPERSEDED_FLYING_CANCELWAITING);
+        
+        wrongTurnActions = config.getOptimizedActionList(ConfPaths.NET_WRONGTURN_ACTIONS, Permissions.NET_WRONGTURN);
 
     }
 

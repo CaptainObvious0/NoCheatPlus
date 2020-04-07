@@ -643,6 +643,9 @@ public class DefaultConfig extends ConfigFile {
 
         // Superseded
         set(ConfPaths.NET_SUPERSEDED_FLYING_CANCELWAITING, true, 1090);
+        
+        set(ConfPaths.NET_WRONGTURN_ACTIVE, "default", 1154);
+        set(ConfPaths.NET_WRONGTURN_ACTIONS, "cancel cmdc:kickillegalrotations:0:10 log:wrongturn:0:15:i", 1154);
 
 
         // TODO: An extra file might suit these.
@@ -738,7 +741,7 @@ public class DefaultConfig extends ConfigFile {
         set(ConfPaths.STRINGS + ".tempkick1", "ncp tempkick [player] 1  &c&l(!)&7 You have to wait 1 minute before joining this server again.", 1154);
         set(ConfPaths.STRINGS + ".tempkick5", "ncp tempkick [player] 5  &c&l(!)&7 You have to wait 5 minutes before joining this server again.", 1154);
         set(ConfPaths.STRINGS + ".vehicleenvelope", start + "tried to move a vehicle unexpectedly (Tags/Vehicle: &6[tags]&7)" + end, 1154);
-        set(ConfPaths.STRINGS + ".wrongturn", start + "sent an impossible pitch rotation (&6>90° &7or&6 <-90°&7)" + end, 1154);
+        set(ConfPaths.STRINGS + ".wrongturn", start + "sent an impossible pitch rotation (&6>90Â° &7or&6 <-90Â°&7)" + end, 1154);
         // Clear a check data  
         set(ConfPaths.STRINGS + ".clearimprobable", clear + "COMBINED_IMPROBABLE", 1154);
         set(ConfPaths.STRINGS + ".clearsf", clear + "MOVING_SURVIVALFLY", 1154);

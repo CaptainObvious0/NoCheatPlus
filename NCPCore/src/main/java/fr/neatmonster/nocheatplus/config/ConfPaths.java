@@ -549,11 +549,7 @@ public abstract class ConfPaths {
     public static final String  FIGHT_SPEED_IMPROBABLE_FEEDONLY          = FIGHT_SPEED_IMPROBABLE + "feedonly";
     public static final String  FIGHT_SPEED_IMPROBABLE_WEIGHT            = FIGHT_SPEED_IMPROBABLE + "weight";
     public static final String  FIGHT_SPEED_ACTIONS                      = FIGHT_SPEED + "actions";
-
-    private static final String FIGHT_WRONGTURN                          = FIGHT + "wrongturn.";
-    public static final String  FIGHT_WRONGTURN_CHECK                    = FIGHT_WRONGTURN + SUB_ACTIVE;
-    public static final String  FIGHT_WRONGTURN_ACTIONS                  = FIGHT_WRONGTURN + "actions";
-
+    
     private static final String FIGHT_YAWRATE                            = FIGHT + "yawrate.";
     public static final String  FIGHT_YAWRATE_CHECK                      = FIGHT_YAWRATE + SUB_ACTIVE;
 
@@ -808,6 +804,10 @@ public abstract class ConfPaths {
     private static final String NET_SUPERSEDED                              = NET + "superseded.";
     private static final String NET_SUPERSEDED_FLYING                       = NET_SUPERSEDED + "flying.";
     public static final String  NET_SUPERSEDED_FLYING_CANCELWAITING         = NET_SUPERSEDED_FLYING + "cancelwaiting";
+    
+    private static final String NET_WRONGTURN                               = NET + "wrongturn.";
+    public static final String  NET_WRONGTURN_ACTIVE                        = NET_WRONGTURN + SUB_ACTIVE;
+    public static final String  NET_WRONGTURN_ACTIONS                       = NET_WRONGTURN + "actions";
 
     public static final String  STRINGS                                     = "strings";
 

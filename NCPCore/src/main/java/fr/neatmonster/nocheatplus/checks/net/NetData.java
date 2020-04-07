@@ -18,7 +18,6 @@ import java.util.LinkedList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import fr.neatmonster.nocheatplus.checks.access.ACheckData;
@@ -35,8 +34,6 @@ import fr.neatmonster.nocheatplus.utilities.ds.count.ActionFrequency;
  *
  */
 public class NetData extends ACheckData {
-	
-    public double fightSyncVL;
 
     // Reentrant lock.
     private final Lock lock = new ReentrantLock();
@@ -63,6 +60,9 @@ public class NetData extends ACheckData {
      * time of the last event. System.currentTimeMillis() is used.
      */
     public ActionFrequency keepAliveFreq = new ActionFrequency(20, 1000);
+    
+    // Wrong Turn
+    public double wrongTurnVL = 0;
 
     // Shared.
     /**

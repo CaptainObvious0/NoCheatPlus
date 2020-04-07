@@ -113,9 +113,6 @@ public class FightListener extends CheckListener implements JoinLeaveListener{
     /** The speed check. */
     private final Speed       speed       = addCheck(new Speed());
 
-    /** WrongTurn: clearly invalid data on Bukkit side. */
-    private final WrongTurn wrongTurn = addCheck(new WrongTurn());
-
     /** For temporary use: LocUtil.clone before passing deeply, call setWorld(null) after use. */
     private final Location useLoc1 = new Location(null, 0, 0, 0);
 
@@ -314,13 +311,6 @@ public class FightListener extends CheckListener implements JoinLeaveListener{
         }
         else {
             data.thornsId = Integer.MIN_VALUE;
-        }
-
-        // TODO: Add as real check.
-        // TODO: Add something on packet level already.
-        if (pData.isCheckActive(CheckType.FIGHT_WRONGTURN, player) 
-                && wrongTurn.check(player, loc, data, cc)) {
-            cancelled = true;
         }
 
         // Run through the main checks.

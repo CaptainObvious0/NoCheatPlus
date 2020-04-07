@@ -66,6 +66,8 @@ public class Direction extends Check {
 
         // entity.height is broken and will always be 0, therefore. Calculate height instead based on boundingBox.
         final double height = damagedIsFake ? (damaged instanceof LivingEntity ? ((LivingEntity) damaged).getEyeHeight() : 1.75) : mcAccess.getHeight(damaged);
+        
+        final boolean isPlayer = damaged instanceof Player ? true : false;
 
         // TODO: allow any hit on the y axis (might just adapt interface to use foot position + height)!
 
@@ -75,7 +77,7 @@ public class Direction extends Check {
 
         final double off;
         if (cc.directionStrict){
-            off = CollisionUtil.combinedDirectionCheck(loc, player.getEyeHeight(), direction, dLoc.getX(), dLoc.getY() + height / 2D, dLoc.getZ(), width, height, TrigUtil.DIRECTION_PRECISION, 80.0);
+            off = CollisionUtil.combinedDirectionCheck(loc, player.getEyeHeight(), direction, dLoc.getX(), dLoc.getY() + height / 2D, dLoc.getZ(), width, height, TrigUtil.DIRECTION_PRECISION, 80.0, isPlayer);
         }
         else{
             // Also take into account the angle.
@@ -156,6 +158,7 @@ public class Direction extends Check {
             return false;
         }
         boolean cancel = false;
+        boolean isPlayer = damaged instanceof Player ? true : false;
 
         // TODO: allow any hit on the y axis (might just adapt interface to use foot position + height)!
 
@@ -165,7 +168,7 @@ public class Direction extends Check {
         final double damagedBoxMarginVertical = dLoc.getBoxMarginVertical();
         final double off;
         if (cc.directionStrict){
-            off = CollisionUtil.combinedDirectionCheck(loc, player.getEyeHeight(), context.direction, dLoc.getX(), dLoc.getY() + damagedBoxMarginVertical / 2D, dLoc.getZ(), damagedBoxMarginHorizontal * 2.0, damagedBoxMarginVertical, TrigUtil.DIRECTION_LOOP_PRECISION, 80.0);
+            off = CollisionUtil.combinedDirectionCheck(loc, player.getEyeHeight(), context.direction, dLoc.getX(), dLoc.getY() + damagedBoxMarginVertical / 2D, dLoc.getZ(), damagedBoxMarginHorizontal * 2.0, damagedBoxMarginVertical, TrigUtil.DIRECTION_LOOP_PRECISION, 80.0, isPlayer);
         }
         else{
             // Also take into account the angle.
