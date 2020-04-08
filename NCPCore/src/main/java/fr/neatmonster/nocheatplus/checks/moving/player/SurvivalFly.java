@@ -2505,8 +2505,23 @@ public class SurvivalFly extends Check {
             vDistanceAboveLimit = yDistance - vAllowedDistance;
         }
         else {
-            // Descending in web.
-            // TODO: Implement something (at least for being in web with the feet or block above)?
+        	
+        	// Descending in web.
+        	// Is checking resetCond necessary here?
+        	if (thisMove.from.resetCond && thisMove.to.resetCond) {
+        		
+        		// Players call decend faster if they're also moving horizontally 
+        		if (thisMove.hDistance > 0.018) {
+        			
+        			vAllowedDistance = -0.062;
+            		vDistanceAboveLimit = yDistance < -0.06 ? Math.abs(yDistance - 0.06) : 0;
+        			
+        		} else {
+        			vAllowedDistance = -0.032;
+            		vDistanceAboveLimit = yDistance < -0.035 ? Math.abs(yDistance - 0.032) : 0;
+        		}
+        	}
+        	
         }
         if (cc.survivalFlyCobwebHack && vDistanceAboveLimit > 0.0 && hDistanceAboveLimit <= 0.0) {
             // TODO: Seemed fixed at first by CB/MC, but still does occur due to jumping. 
