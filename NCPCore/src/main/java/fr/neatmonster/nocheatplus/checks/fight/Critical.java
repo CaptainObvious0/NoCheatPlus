@@ -92,7 +92,7 @@ public class Critical extends Check {
              * 
              */
             // 0.0009 is just a random number for leniency that works fine, maybe add a config option?
-            if (Math.abs(mData.noFallFallDistance - mcFallDistance) > 0.0009 && mcFallDistance <= cc.criticalFallDistance && mData.sfJumpPhase <= 1 && !BlockProperties.isResetCond(player, loc, mcc.yOnGround) || mData.sfLowJump) {
+            if (Math.abs(mData.noFallFallDistance - mcFallDistance) > 0.0009 && mcFallDistance <= cc.criticalFallDistance && mData.sfJumpPhase <= 1 && !BlockProperties.isResetCond(player, loc, mcc.yOnGround) || mData.sfLowJump || mData.noFallFallDistance != mcFallDistance && thisMove.from.onGround && thisMove.to.onGround) {
             	
             	// TODO: Use past move tracking to check for SurvivalFly and the like?
                 final PlayerMoveInfo moveInfo = auxMoving.usePlayerMoveInfo();
@@ -115,6 +115,7 @@ public class Critical extends Check {
                 	
                 	else {
                 		
+                		boolean exemptLowJump = false;
                 		// False positives with lowJump when the player jumps on/off a block while attacking an entity
                 		if (mData.sfLowJump) {
 							
@@ -123,7 +124,7 @@ public class Critical extends Check {
 								if (mcFallDistance > cc.criticalFallDistance) {
 									
 									if (!thisMove.to.onGround || !thisMove.from.onGround) {
-										return false;
+										exemptLowJump = true;
 									}
 									
 								}
@@ -131,32 +132,39 @@ public class Critical extends Check {
 							} else if (!thisMove.to.onGround || !thisMove.from.onGround) {
 								
 								if (Math.abs(mData.noFallFallDistance - mcFallDistance) > 0.0009) {
-									return false;
+									exemptLowJump = true;
 								}
 								
 							}
 							
 						}
                 			
-                		data.criticalVL += 1.0;
-                        // Execute whatever actions are associated with this check and 
-                        //  the violation level and find out if we should cancel the event.
-                        final ViolationData vd = new ViolationData(this, player, data.criticalVL, 1.0, cc.criticalActions);
-                        if (vd.needsParameters()) {
-                            final List<String> tags = new ArrayList<String>();
-                            if (mData.sfLowJump) {
-                                tags.add("lowjump");
+                		if (!exemptLowJump) {
+                			data.criticalVL += 1.0;
+                            // Execute whatever actions are associated with this check and 
+                            //  the violation level and find out if we should cancel the event.
+                            final ViolationData vd = new ViolationData(this, player, data.criticalVL, 1.0, cc.criticalActions);
+                            if (vd.needsParameters()) {
+                                final List<String> tags = new ArrayList<String>();
+                                if (mData.sfLowJump) {
+                                    tags.add("lowjump");
+                                }
+                                vd.setParameter(ParameterName.TAGS, StringUtil.join(tags, "+"));
                             }
-                            vd.setParameter(ParameterName.TAGS, StringUtil.join(tags, "+"));
-                        }
-                        cancel = executeActions(vd).willCancel();
-                        // TODO: Introduce penalty instead of cancel.
+                            cancel = executeActions(vd).willCancel();
+                            // TODO: Introduce penalty instead of cancel.
+                		}
                         
                     }
                     auxMoving.returnPlayerMoveInfo(moveInfo);
                 		
                 	}
             }
+            
+            if (!cancel) {
+            	data.criticalVL *= 0.96D;
+            }
+            
         }
 
         return cancel;
