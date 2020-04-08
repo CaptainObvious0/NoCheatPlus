@@ -1007,9 +1007,14 @@ public class SurvivalFly extends Check {
             // Cobweb doesn't apply speed effect but BerryBush does
             useBaseModifiersSprint = false;
             from.collectBlockFlags(); // Just ensure.
+            // 
             if ((from.getBlockFlags() & BlockProperties.F_COBWEB2) !=0) {
-            	hAllowedDistance *= 2.5;
-            	useBaseModifiersSprint = true;
+            	if (thisMove.yDistance > 0) 
+            		hAllowedDistance = 1.1 * thisMove.walkSpeed * cc.survivalFlyWalkingSpeed / 100D;
+            	else
+            		hAllowedDistance = 0.362 * thisMove.walkSpeed * cc.survivalFlyWalkingSpeed / 100D;
+            	
+                if (sprinting) hAllowedDistance += 0.0255;
             }
             friction = 0.0; // Ensure friction can't be used to speed.
             useBaseModifiers = true;
@@ -2500,15 +2505,15 @@ public class SurvivalFly extends Check {
                 // TODO: Could prevent not moving down if not on ground (or on ladder or in liquid?).
                 vAllowedDistance = thisMove.from.onGround ? 0.1D : 0;
                 from.collectBlockFlags();
-                if ((from.getBlockFlags() & BlockProperties.F_COBWEB2) !=0) vAllowedDistance = 0.52;
+                if ((from.getBlockFlags() & BlockProperties.F_COBWEB2) !=0) vAllowedDistance = 0.315;
             }
             vDistanceAboveLimit = yDistance - vAllowedDistance;
         }
         else {
         	
-        	// Descending in web.
+        	// Descending in web/sweet berry bushes.
         	// Is checking resetCond necessary here?
-        	if (thisMove.from.resetCond && thisMove.to.resetCond) {
+        	if (thisMove.from.resetCond && thisMove.to.resetCond && (from.getBlockFlags() & BlockProperties.F_COBWEB2) == 0) {
         		
         		// Players call decend faster if they're also moving horizontally 
         		if (thisMove.hDistance > 0.018) {
@@ -2520,15 +2525,27 @@ public class SurvivalFly extends Check {
         			vAllowedDistance = -0.032;
             		vDistanceAboveLimit = yDistance < -0.035 ? Math.abs(yDistance - 0.032) : 0;
         		}
+        	} else if ((from.getBlockFlags() & BlockProperties.F_COBWEB2) != 0) {
+        		
+        		// Allow a faster decend speed when the player first enters berry (jumping on from the top)
+        		if (data.insideMediumCount == 0) {
+        			vAllowedDistance = -0.227;
+        			vDistanceAboveLimit = yDistance < -0.227 ? Math.abs(yDistance - 0.227) : 0;
+        		} else {
+        			vAllowedDistance = -0.06;
+            		vDistanceAboveLimit = yDistance < -0.06 ? Math.abs(yDistance - 0.06) : 0;
+        		}
+        		
         	}
         	
         }
+        /* Should flag as normal rather than doing silent setbacks. Also causes issues with decend check, meaning the player is never flagged.
         if (cc.survivalFlyCobwebHack && vDistanceAboveLimit > 0.0 && hDistanceAboveLimit <= 0.0) {
             // TODO: Seemed fixed at first by CB/MC, but still does occur due to jumping. 
             if (hackCobweb(player, data, thisMove, now, vDistanceAboveLimit)) {
                 return new double[]{Double.MIN_VALUE, Double.MIN_VALUE};
             }
-        }
+        } */
         // TODO: Prevent too fast moving down ?
         if (vDistanceAboveLimit > 0.0) {
             tags.add("vweb");
