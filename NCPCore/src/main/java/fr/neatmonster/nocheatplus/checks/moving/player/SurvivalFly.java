@@ -537,6 +537,14 @@ public class SurvivalFly extends Check {
                 }
                 }
             }
+        
+        // Simple way to prevent players from sprinting if they have the blindness effect. 
+        // Possibly just merge this with sprintback?
+        if (player.isSprinting() && player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
+        	hDistanceAboveLimit = Math.max(hDistanceAboveLimit, hDistance);
+        	tags.add("badsprint");
+        }
+        
         }
         else {
             /*
@@ -2535,11 +2543,10 @@ public class SurvivalFly extends Check {
         			vAllowedDistance = -0.06;
             		vDistanceAboveLimit = yDistance < -0.06 ? Math.abs(yDistance - 0.06) : 0;
         		}
-        		
         	}
         	
         }
-        /* Should flag as normal rather than doing silent setbacks. Also causes issues with decend check, meaning the player is never flagged.
+        /* Should flag as normal rather than doing silent setbacks. Also causes issues with descend check, meaning the player is never flagged.
         if (cc.survivalFlyCobwebHack && vDistanceAboveLimit > 0.0 && hDistanceAboveLimit <= 0.0) {
             // TODO: Seemed fixed at first by CB/MC, but still does occur due to jumping. 
             if (hackCobweb(player, data, thisMove, now, vDistanceAboveLimit)) {
