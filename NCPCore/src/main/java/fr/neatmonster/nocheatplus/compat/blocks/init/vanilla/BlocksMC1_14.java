@@ -144,7 +144,7 @@ public class BlocksMC1_14 implements BlockPropertiesSetup{
 		BlockProperties.setBlockProps("BELL", new BlockProperties.BlockProps(BlockProperties.woodPickaxe, 7f, BlockProperties.secToMs(23.0, 3.8, 2.2, 1, 1.5, 0.8)));
 		BlockProperties.setBlockProps("LANTERN", new BlockProperties.BlockProps(BlockProperties.woodPickaxe, 6.0f, BlockProperties.secToMs(17.0, 2.8, 1.8, 0.7, 0.8, 0.5)));
 		BlockFlags.addFlags("LANTERN", BlockProperties.F_GROUND | BlockProperties.F_GROUND_HEIGHT);
-		BlockFlags.addFlags("SWEET_BERRY_BUSH", BlockProperties.F_COBWEB);
+		BlockFlags.addFlags("SWEET_BERRY_BUSH", BlockProperties.F_IGN_PASSABLE);
 		StaticLog.logInfo("Added block-info for Minecraft 1.14 blocks.");
 	}
 

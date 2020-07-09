@@ -29,7 +29,7 @@ import fr.neatmonster.nocheatplus.utilities.map.BlockFlags;
 import fr.neatmonster.nocheatplus.utilities.map.BlockProperties;
 
 /**
- * Multi client protocol support between 1.7.x - 1.14.x.
+ * Multi client protocol support between 1.7.x - 1.15.x.
  * 
  * @author asofold
  *
@@ -52,30 +52,17 @@ public class MultiClientProtocolBlockShapePatch extends AbstractBlockPropertiesP
     public void setupBlockProperties(WorldConfigProvider<?> worldConfigProvider) {
 
         final List<String> done = new LinkedList<String>();
-
-        //This freaks out with 1.8 using viaversion
+    //Lilly pads dont work with 1.8 using viaversion
         BlockFlags.addFlags(BridgeMaterial.LILY_PAD, 
                 BlockProperties.F_GROUND 
                 | BlockProperties.F_HEIGHT8_1 
                 | BlockProperties.F_GROUND_HEIGHT);
         done.add("water_lily");
-
         BlockFlags.addFlags(BridgeMaterial.FARMLAND, 
                 BlockProperties.F_MIN_HEIGHT16_15 
                 | BlockProperties.F_HEIGHT100 
                 | BlockProperties.F_GROUND_HEIGHT);
         done.add("soil");
-
-        try {
-            BlockFlags.addFlags(Material.GRASS_PATH, 
-                    BlockProperties.F_MIN_HEIGHT16_15 
-                    | BlockProperties.F_HEIGHT100 
-                    | BlockProperties.F_GROUND_HEIGHT);
-            done.add("grass_path");
-        }
-        catch (Throwable t) {
-            // TODO: What throws for enum not there.
-        }
 
         StaticLog.logInfo("Applied block patches for multi client protocol support: " 
                 + StringUtil.join(done, ", "));

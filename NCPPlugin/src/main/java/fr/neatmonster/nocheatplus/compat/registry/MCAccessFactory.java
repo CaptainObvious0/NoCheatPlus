@@ -32,7 +32,6 @@ import fr.neatmonster.nocheatplus.logging.StaticLog;
  *
  */
 public class MCAccessFactory {
-
     //Message below is sent when CBDedicated and CBReflect failed to run and NCP switches to bukkit's api as it can't tell the server version.
     private final String[] updateLocs = new String[] {
 //            " Check for updates and support at BukkitDev: https://dev.bukkit.org/projects/nocheatplus/",
@@ -125,6 +124,9 @@ public class MCAccessFactory {
                 "fr.neatmonster.nocheatplus.compat.cbdev.MCAccessCBDev", // latest / tests.
 
                 // Dedicated: CB (Spigot)
+                "fr.neatmonster.nocheatplus.compat.spigotcb1_14_R1.MCAccessSpigotCB1_14_R1", // 1.14.2 (1_14_R1)
+                "fr.neatmonster.nocheatplus.compat.spigotcb1_13_R1.MCAccessSpigotCB1_13_R1", // 1.13.2 (1_13_R1)
+                "fr.neatmonster.nocheatplus.compat.spigotcb1_12_R1.MCAccessSpigotCB1_12_R1", // 1.12.2 (1_12_R1)
                 "fr.neatmonster.nocheatplus.compat.spigotcb1_11_R1.MCAccessSpigotCB1_11_R1", // 1.11.2 (1_11_R1)
                 "fr.neatmonster.nocheatplus.compat.spigotcb1_10_R1.MCAccessSpigotCB1_10_R1", // 1.10-1.10.2 (1_10_R1)
                 "fr.neatmonster.nocheatplus.compat.spigotcb1_9_R2.MCAccessSpigotCB1_9_R2", // 1.9.4 (1_9_R2)

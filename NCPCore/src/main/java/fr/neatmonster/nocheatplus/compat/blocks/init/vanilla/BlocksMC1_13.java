@@ -54,14 +54,7 @@ public class BlocksMC1_13 implements BlockPropertiesSetup {
         for (Material mat : MaterialUtil.CORAL_BLOCKS) {
             BlockInit.setAs(mat, Material.STONE);
         }
-
-        // Passable (alive) coral parts.
-
-        // Dead coral parts (solid + ground already set).
-        for (Material mat : MaterialUtil.DEAD_CORAL_PARTS) {
-            // (Flags should be set correctly by default.)
-            BlockInit.setPropsAs(mat, Material.STONE);
-        }
+        //Dead and alive coral handled by BlockProperties
 
         // Kelp.
 
@@ -179,11 +172,6 @@ public class BlocksMC1_13 implements BlockPropertiesSetup {
         // Turtle egg.
         BlockProperties.setBlockProps("TURTLE_EGG", new BlockProps(
                 BlockProperties.noTool, 0.5f, BlockProperties.secToMs(0.7)));
-
-        // Grass path.
-        BlockFlags.removeFlags(Material.GRASS_PATH, BlockProperties.F_HEIGHT100);
-        BlockFlags.addFlags(Material.GRASS_PATH, 
-                BlockProperties.F_XZ100 | BlockProperties.F_HEIGHT16_15);
 
         StaticLog.logInfo("Added block-info for Minecraft 1.13 blocks.");
     }

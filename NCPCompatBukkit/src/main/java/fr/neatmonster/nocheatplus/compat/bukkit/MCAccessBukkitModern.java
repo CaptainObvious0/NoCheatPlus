@@ -78,7 +78,7 @@ public class MCAccessBukkitModern extends MCAccessBukkit {
     private static final BukkitShapeModel MODEL_GROUND_HEAD= new BukkitStatic(
             0.25, 0.5); // TODO: XZ-really? 275 ?
     private static final BukkitShapeModel MODEL_SINGLE_CHEST = new BukkitStatic(
-            0.062, .875); // TODO: 0.0625?
+            0.0625, 0.875);
 
     // Static blocks with full height sorted by inset.
     private static final BukkitShapeModel MODEL_INSET16_1_HEIGHT100 = new BukkitStatic(

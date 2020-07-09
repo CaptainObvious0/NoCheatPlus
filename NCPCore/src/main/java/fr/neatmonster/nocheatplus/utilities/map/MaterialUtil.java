@@ -200,20 +200,10 @@ public class MaterialUtil {
 
     /** Dead or alive. */
     public static final Set<Material> CORAL_BLOCKS = Collections.unmodifiableSet(
-            BridgeMaterial.getBySuffix("coral_block", AlmostBoolean.YES, "legacy")
-            );
+            BridgeMaterial.getBySuffix("coral_block", AlmostBoolean.YES, "legacy"));
 
-    /**
-     * Dead coral parts, that have been passable alive, but which are like stone
-     * when dead.
-     */
-    public static final Set<Material> DEAD_CORAL_PARTS = Collections.unmodifiableSet(
-            BridgeMaterial.getByPrefixAndSuffix(
-                    Arrays.asList("dead_"),
-                    Arrays.asList("coral_fan", "coral_wall_fan", "coral"),
-                    AlmostBoolean.YES, 
-                    "block", "legacy"
-                    ));
+    public static final Set<Material> CORAL_PARTS = Collections.unmodifiableSet(
+            BridgeMaterial.getBySuffix(Arrays.asList("_coral_fan", "_coral_wall_fan", "_coral"), AlmostBoolean.YES, "block", "legacy"));
 
     /** Flower pot and potted plants / things. */
     public static final Set<Material> FLOWER_POTS = Collections.unmodifiableSet(addBlocks(
@@ -525,7 +515,7 @@ public class MaterialUtil {
      */
     @SuppressWarnings("unchecked")
     public static final Set<Material> LIQUID_BLOCKS = Collections.unmodifiableSet(join(
-            DEAD_CORAL_PARTS,
+            CORAL_PARTS,
 	    NEWLIQ
             ));
 

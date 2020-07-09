@@ -842,6 +842,7 @@ public class BlockProperties {
 
     /** Cobweb like blocks (adhesive). */
     public static final long F_COBWEB                       = f_flag();
+    public static final long F_COBWEB2                      = f_flag();
     public static final long F_SOULSAND                     = f_flag();
 
     /**
@@ -1151,6 +1152,7 @@ public class BlockProperties {
         // Ignore for passable.
         for (final Material mat : new Material[]{
                 // More strictly needed.
+                BridgeMaterial.WOODEN_PRESSURE_PLATE,
                 BridgeMaterial.STONE_PRESSURE_PLATE, 
                 BridgeMaterial.SIGN,
                 BridgeMaterial.get("DIODE_BLOCK_ON"), 
@@ -1223,7 +1225,7 @@ public class BlockProperties {
         }
 
         // Thin fences (iron fence, glass panes).
-        final long paneFlags = F_THIN_FENCE | F_VARIABLE;
+        final long paneFlags = F_THIN_FENCE | F_VARIABLE | F_IGN_PASSABLE;
         for (final Material mat : new Material[]{
                 BridgeMaterial.IRON_BARS,
         }) {
@@ -1233,6 +1235,11 @@ public class BlockProperties {
             setFlag(mat, paneFlags);
         }
 
+        for (final Material mat : new Material[]{
+                BridgeMaterial.GLASS_PANES,
+        }) {
+            setFlag(mat, paneFlags);
+        }
         // Flexible ground (height):
         for (final Material mat : new Material[]{
                 // Strictly needed (multiple boxes otherwise).
@@ -1295,6 +1302,11 @@ public class BlockProperties {
         for (final Material mat : MaterialUtil.LEAVES) {
             setBlock(mat, leafType);
             setFlag(mat, F_LEAVES);
+        }
+		// Coral
+        for (final Material mat : MaterialUtil.CORAL_PARTS) {
+            setBlock(mat, instantType);
+            setFlag(mat, F_IGN_PASSABLE);
         }
         for (Material mat : MaterialUtil.BEDS) { // TODO: Beds are special.
             setBlock(mat, leafType);
@@ -2866,7 +2878,7 @@ public class BlockProperties {
         final int data1 = access.getData(x, y, z);
         // (Trap door may be attached to top or bottom, regardless.)
         // Trap door must be open (really?).
-        if ((data1 & 0x04) != 0x04) {
+        if (data1 == 0) {
             return false;
         }
         // Need the facing direction.
@@ -3179,7 +3191,7 @@ public class BlockProperties {
         } else if (id.toString().equals("BELL") && (access.getData(bx, by, bz) & 0x4) != 0) {
         	if (Math.max(fy, fy + dY * dT) >0.39 && Math.max(fy, fy + dY * dT) < 0.9) return true;
         } else if (id.toString().equals("CHORUS_PLANT") && !collidesFence(fx, fz, dX, dZ, dT, 0.3)) return true;
-	else if (id.toString().equals("BAMBOO")) return true;
+        else if (id.toString().equals("BAMBOO")) return true;
         // Nothing found.
         return false;
     }
